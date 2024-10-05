@@ -15,7 +15,7 @@ export class StocksService {
   async fetchAndSavePrice(symbol: string): Promise<Stock> {
     const price = await this.finnhubService.getCurrentPrice(symbol);
     const stock = this.stockRepository.create({
-      symbol,
+      symbol: symbol.toUpperCase(),
       price,
       timestamp: new Date(),
     });

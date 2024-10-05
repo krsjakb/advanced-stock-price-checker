@@ -18,9 +18,15 @@ export class FinnhubService {
   }
 
   async getCurrentPrice(symbol: string): Promise<number> {
-    const url = `${this.apiUrl}/quote?symbol=${symbol}&token=${this.apiKey}`;
-    const response = this.httpService.get(url).pipe(map((res) => res.data));
+    const url = `${this.apiUrl}/quote`;
+    const params = {
+      symbol,
+      token: this.apiKey,
+    };
+    const response = this.httpService
+      .get(url, { params })
+      .pipe(map((res) => res.data));
     const data = await lastValueFrom(response);
-    return data.c;
+    return data.c; // 'c' is the current price in Finnhub's API response
   }
 }
