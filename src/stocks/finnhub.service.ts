@@ -27,6 +27,11 @@ export class FinnhubService {
       .get(url, { params })
       .pipe(map((res) => res.data));
     const data = await lastValueFrom(response);
+
+    if (!data || data.c === null) {
+      throw new Error(`No data returned for symbol ${symbol}`);
+    }
+
     return data.c; // 'c' is the current price in Finnhub's API response
   }
 }
