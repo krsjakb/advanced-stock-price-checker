@@ -35,6 +35,12 @@ $ npm install
 ## Compile and run the project
 
 ```bash
+$ docker compose up -d
+```
+
+or
+
+```bash
 # development
 $ npm run start
 
@@ -43,6 +49,12 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
+
+## Build docker image
+
+```bash
+$ docker build -t advanced-stock-price-checker .
 ```
 
 ## Run tests
