@@ -51,4 +51,35 @@ export class StocksService {
     }
     this.logger.debug('Cron job finished');
   }
+
+  async getMovingAverage(symbol: string): Promise<number> {
+    const prices = await this.stockRepository.find({
+      where: { symbol: symbol.toUpperCase() },
+      order: { timestamp: 'DESC' },
+      take: 10,
+    });
+
+    if (prices.length === 0) {
+      throw new Error('Not enough data to calculate moving average');
+    }
+
+    const sum = prices.reduce(
+      (total, record) => total + Number(record.price),
+      0,
+    );
+    return sum / prices.length;
+  }
+
+  async getCurrentPrice(symbol: string): Promise<Stock> {
+    const stock = await this.stockRepository.findOne({
+      where: { symbol: symbol.toUpperCase() },
+      order: { timestamp: 'DESC' },
+    });
+
+    if (!stock) {
+      throw new Error('Stock not found');
+    }
+
+    return stock;
+  }
 }
